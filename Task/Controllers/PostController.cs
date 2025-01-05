@@ -24,7 +24,11 @@ namespace Task.Controllers
             _context = context;
         }
 
-        // POST: api/Post
+        /// <summary>
+        /// Creates a new post.
+        /// </summary>
+        /// <param name="postDto">Post creation details.</param>
+        /// <returns>Created post details.</returns>
         [HttpPost]
         public async Task<IActionResult> CreatePost([FromBody] PostCreateDTO postDto)
         {
@@ -85,7 +89,11 @@ namespace Task.Controllers
             return CreatedAtAction(nameof(GetPostById), new { id = post.Id }, postReadDto);
         }
 
-        // GET: api/Post/{id}
+        /// <summary>
+        /// Retrieves a post by its ID.
+        /// </summary>
+        /// <param name="id">Post ID.</param>
+        /// <returns>Post details.</returns>
         [HttpGet("{id}")]
         public async Task<IActionResult> GetPostById(int id)
         {
@@ -122,6 +130,9 @@ namespace Task.Controllers
         /// <summary>
         /// Retrieves all posts with optional search and date filters.
         /// </summary>
+        /// <param name="searchText">Search text to filter posts by title or content.</param>
+        /// <param name="publishDate">Publish date to filter posts.</param>
+        /// <returns>List of filtered posts.</returns>
         [HttpGet("GetAllPosts")]
         public async Task<IActionResult> GetAllPosts([FromQuery] string searchText, [FromQuery] DateTime? publishDate)
         {
@@ -183,7 +194,12 @@ namespace Task.Controllers
             return Ok(response);
         }
 
-        // PUT: api/Post/{id}
+        /// <summary>
+        /// Updates an existing post.
+        /// </summary>
+        /// <param name="id">Post ID.</param>
+        /// <param name="postDto">Post update details.</param>
+        /// <returns>No content upon successful update.</returns>
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdatePost(int id, [FromBody] PostCreateDTO postDto)
         {
@@ -229,7 +245,11 @@ namespace Task.Controllers
             return NoContent();
         }
 
-        // DELETE: api/Post/{id}
+        /// <summary>
+        /// Deletes an existing post.
+        /// </summary>
+        /// <param name="id">Post ID.</param>
+        /// <returns>No content upon successful deletion.</returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePost(int id)
         {

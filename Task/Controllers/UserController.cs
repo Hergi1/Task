@@ -25,7 +25,11 @@ namespace Task.Controllers
             _configuration = configuration;
         }
 
-        // POST: api/auth/register
+        /// <summary>
+        /// Registers a new user.
+        /// </summary>
+        /// <param name="userRegister">User registration details.</param>
+        /// <returns>Success message.</returns>
         [HttpPost("register")]
         public IActionResult Register([FromBody] UserRegisterDTO userRegister)
         {
@@ -39,7 +43,7 @@ namespace Task.Controllers
             var user = new User
             {
                 Username = userRegister.Username,
-                Password = userRegister.Password, // **Note:** Password stored as plain text. Not recommended.
+                Password = userRegister.Password, // **Note:** Password stored as plain text. **Not recommended.**
                 Role = "User" // Default role
             };
             _context.Users.Add(user);
@@ -48,7 +52,11 @@ namespace Task.Controllers
             return Ok(new { Message = "User registered successfully." });
         }
 
-        // POST: api/auth/login
+        /// <summary>
+        /// Authenticates a user and issues a JWT token.
+        /// </summary>
+        /// <param name="loginUser">User login credentials.</param>
+        /// <returns>JWT token upon successful authentication.</returns>
         [HttpPost("login")]
         public IActionResult Login([FromBody] UserLoginDTO loginUser)
         {
@@ -63,6 +71,11 @@ namespace Task.Controllers
             return Ok(new { Token = token, Message = "Login successful." });
         }
 
+        /// <summary>
+        /// Generates a JWT token for authenticated users.
+        /// </summary>
+        /// <param name="user">Authenticated user.</param>
+        /// <returns>JWT token string.</returns>
         private string GenerateJwtToken(User user)
         {
             var claims = new[]

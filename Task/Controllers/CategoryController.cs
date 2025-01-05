@@ -24,7 +24,11 @@ namespace Task.Controllers
             _context = context;
         }
 
-        // POST: api/Category
+        /// <summary>
+        /// Creates a new category.
+        /// </summary>
+        /// <param name="categoryDto">Category creation details.</param>
+        /// <returns>Created category details.</returns>
         [HttpPost]
         public async Task<IActionResult> CreateCategory([FromBody] CategoryCreateDTO categoryDto)
         {
@@ -54,7 +58,11 @@ namespace Task.Controllers
             return CreatedAtAction(nameof(GetCategoryById), new { id = category.Id }, categoryReadDto);
         }
 
-        // GET: api/Category/{id}
+        /// <summary>
+        /// Retrieves a category by its ID.
+        /// </summary>
+        /// <param name="id">Category ID.</param>
+        /// <returns>Category details.</returns>
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCategoryById(int id)
         {
@@ -72,7 +80,10 @@ namespace Task.Controllers
             return Ok(categoryReadDto);
         }
 
-        // GET: api/Category
+        /// <summary>
+        /// Retrieves all categories.
+        /// </summary>
+        /// <returns>List of categories.</returns>
         [HttpGet]
         public async Task<IActionResult> GetAllCategories()
         {
@@ -88,7 +99,12 @@ namespace Task.Controllers
             return Ok(categories);
         }
 
-        // PUT: api/Category/{id}
+        /// <summary>
+        /// Updates an existing category.
+        /// </summary>
+        /// <param name="id">Category ID.</param>
+        /// <param name="categoryDto">Category update details.</param>
+        /// <returns>No content upon successful update.</returns>
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateCategory(int id, [FromBody] CategoryCreateDTO categoryDto)
         {
@@ -111,7 +127,11 @@ namespace Task.Controllers
             return NoContent();
         }
 
-        // DELETE: api/Category/{id}
+        /// <summary>
+        /// Deletes an existing category.
+        /// </summary>
+        /// <param name="id">Category ID.</param>
+        /// <returns>No content upon successful deletion.</returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCategory(int id)
         {
