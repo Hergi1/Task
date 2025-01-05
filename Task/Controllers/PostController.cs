@@ -35,17 +35,14 @@ namespace Task.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            // Extract UserId from JWT Token
             var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
             if (userIdClaim == null || !int.TryParse(userIdClaim.Value, out int userId))
                 return Unauthorized(new { Message = "Invalid token." });
 
-            // Validate User
             var user = await _context.Users.FindAsync(userId);
             if (user == null)
                 return Unauthorized(new { Message = "User not found." });
 
-            // Validate Categories
             var categories = await _context.Categories
                 .Where(c => postDto.CategoryIds.Contains(c.Id))
                 .ToListAsync();
@@ -58,7 +55,7 @@ namespace Task.Controllers
                 Title = postDto.Title,
                 Content = postDto.Content,
                 Status = postDto.Status,
-                CreationDate = DateTime.UtcNow, // Set to current UTC time
+                CreationDate = DateTime.UtcNow, 
                 PublishDate = postDto.PublishDate,
                 UserId = userId,
                 Categories = categories
@@ -136,13 +133,11 @@ namespace Task.Controllers
         [HttpGet("GetAllPosts")]
         public async Task<IActionResult> GetAllPosts([FromQuery] string searchText, [FromQuery] DateTime? publishDate)
         {
-            // Initialize the query with related entities
             var query = _context.Posts
                 .Include(p => p.Categories)
                 .Include(p => p.User)
                 .AsQueryable();
 
-            // Apply search filter if searchText is provided
             if (!string.IsNullOrEmpty(searchText))
             {
                 var loweredSearchText = searchText.ToLower();
@@ -151,7 +146,6 @@ namespace Task.Controllers
                     p.Content.ToLower().Contains(loweredSearchText));
             }
 
-            // Apply publish date filter if publishDate is provided
             if (publishDate.HasValue)
             {
                 var date = publishDate.Value.Date;
@@ -160,12 +154,10 @@ namespace Task.Controllers
                     p.PublishDate.Value.Date == date);
             }
 
-            // Execute the query and retrieve the list of posts
             var posts = await query
                 .OrderByDescending(p => p.CreationDate)
                 .ToListAsync();
 
-            // Map the posts to PostReadDTO
             var postReadDtos = posts.Select(p => new PostReadDTO
             {
                 Id = p.Id,
@@ -230,13 +222,10 @@ namespace Task.Controllers
             if (categories.Count != postDto.CategoryIds.Count)
                 return BadRequest(new { Message = "One or more categories not found." });
 
-            // Update post properties
             post.Title = postDto.Title;
             post.Content = postDto.Content;
             post.Status = postDto.Status;
             post.PublishDate = postDto.PublishDate;
-            // Optionally, prevent updating CreationDate
-            // post.CreationDate = postDto.CreationDate;
             post.Categories = categories;
 
             _context.Posts.Update(post);
@@ -257,12 +246,10 @@ namespace Task.Controllers
             if (post == null)
                 return NotFound(new { Message = "Post not found." });
 
-            // Extract UserId from JWT Token
             var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
             if (userIdClaim == null || !int.TryParse(userIdClaim.Value, out int userId))
                 return Unauthorized(new { Message = "Invalid token." });
 
-            // Ensure the authenticated user is the creator of the post
             if (post.UserId != userId)
                 return StatusCode(403, new { Message = "You are not authorized to delete this post." });
 

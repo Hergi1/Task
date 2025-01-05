@@ -1,22 +1,18 @@
-﻿// DTOs/PostCreateDTO.cs
-using System;
-
-
-namespace Task.DTOs
+﻿namespace Task.DTOs
 {
     public class PostCreateDTO
     {
         public string Title { get; set; }
         public string Content { get; set; }
-        public string Status { get; set; } // e.g., "Published", "Draft"
+        public string Status { get; set; } 
         public DateTime CreationDate { get; set; }
-        public DateTime? PublishDate { get; set; } // Nullable
-        public List<int> CategoryIds { get; set; } // List of Category IDs
+        public DateTime? PublishDate { get; set; } 
+        public List<int> CategoryIds { get; set; } 
         public int UserId { get; set; }
     }
 }
 
-// DTOs/PostReadDTO.cs
+
 namespace Task.DTOs
 {
     public class PostReadDTO

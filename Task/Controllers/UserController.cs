@@ -7,8 +7,6 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Microsoft.Extensions.Configuration;
-using System.Linq;
 
 namespace Task.Controllers
 {
@@ -36,15 +34,14 @@ namespace Task.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            // Check if user already exists
             if (_context.Users.Any(u => u.Username.ToLower() == userRegister.Username.ToLower()))
                 return BadRequest(new { Message = "User already exists." });
 
             var user = new User
             {
                 Username = userRegister.Username,
-                Password = userRegister.Password, // **Note:** Password stored as plain text. **Not recommended.**
-                Role = "User" // Default role
+                Password = userRegister.Password, 
+                Role = "User"
             };
             _context.Users.Add(user);
             _context.SaveChanges();

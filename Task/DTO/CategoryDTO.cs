@@ -1,5 +1,4 @@
-﻿// DTOs/CategoryCreateDTO.cs
-namespace Task.DTOs
+﻿namespace Task.DTOs
 {
     public class CategoryCreateDTO
     {
@@ -8,7 +7,6 @@ namespace Task.DTOs
     }
 }
 
-// DTOs/CategoryReadDTO.cs
 namespace Task.DTOs
 {
     public class CategoryReadDTO

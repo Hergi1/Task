@@ -1,5 +1,4 @@
-﻿// DTOs/UserRegisterDTO.cs
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Task.DTOs
 {
